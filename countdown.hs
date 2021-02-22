@@ -153,7 +153,7 @@ valid'' Div x y        = y /= 1 && x `mod` y == 0
 
 eval''                :: Expr -> [Int]
 eval'' (Val n)         = [n | n > 0]
-eval'' (App o l r)     = [apply o x y | x <- eval' l, y <- eval' r, valid'' o x y]
+eval'' (App o l r)     = [apply o x y | x <- eval'' l, y <- eval'' r, valid'' o x y]
 
 solution''            :: Expr -> [Int] -> Int -> Bool
 solution'' e ns n      = elem (values e) (subbags ns) && eval'' e == [n]
@@ -188,7 +188,7 @@ valid''' Div (e1,x) (e2,y) = y /= 1 && x `mod` y == 0 && non Div e1 && non Div e
 
 eval'''                :: Expr -> [Int]
 eval''' (Val n)         = [n | n > 0]
-eval''' (App o l r)     = [apply o x y | x <- eval' l, y <- eval' r, valid''' o (l,x) (l,y)]
+eval''' (App o l r)     = [apply o x y | x <- eval''' l, y <- eval''' r, valid''' o (l,x) (l,y)]
 
 solution'''            :: Expr -> [Int] -> Int -> Bool
 solution''' e ns n      = elem (values e) (subbags ns) && eval''' e == [n]
